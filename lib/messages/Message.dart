@@ -86,7 +86,7 @@ class _MessageStateSecond extends State<MessagePageSecond> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Message Page 1')),
+      appBar: AppBar(title: Text('Message Page 2')),
       body: Container(
           width: MediaQuery.of(context).size.width,
           child: Column(
@@ -122,6 +122,9 @@ Widget _buildMessagePanel(List<String> messageList) {
       height: 500,
       width: 500,
       child: SingleChildScrollView(
-        child: Column(children: messageList.map((e) => Text(e)).toList()),
+        child: Column(
+          children: messageList.map((e) => Text(e)).toList(),
+          crossAxisAlignment: CrossAxisAlignment.start,
+          ),
       ));
 }
