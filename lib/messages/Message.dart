@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rx_demo/BlocProvider.dart';
@@ -11,15 +13,22 @@ class _MessageStateFirst extends State<MessagePageFirst> {
   List<String> _messageList = [];
   BlocProvider _provider;
   TextEditingController _controller = TextEditingController();
+  StreamSubscription _subscription;
   @override
   void initState() {
     _provider = Provider.of<BlocProvider>(context, listen: false);
-    _provider.messageBloc.stream.listen((event) {
+    _subscription = _provider.messageBloc.stream.listen((event) {
       setState(() {
         _messageList.add(event);
       });
     });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _subscription.cancel();
+    super.dispose();
   }
 
   @override
@@ -71,16 +80,23 @@ class _MessageStateSecond extends State<MessagePageSecond> {
   List<String> _messageList = [];
   BlocProvider _provider;
   TextEditingController _controller = TextEditingController();
+  StreamSubscription _subscription;
 
   @override
   void initState() {
     _provider = Provider.of<BlocProvider>(context, listen: false);
-    _provider.messageBloc.stream.listen((event) {
+    _subscription = _provider.messageBloc.stream.listen((event) {
       setState(() {
         _messageList.add(event);
       });
     });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _subscription.cancel();
+    super.dispose();
   }
 
   @override
@@ -125,6 +141,6 @@ Widget _buildMessagePanel(List<String> messageList) {
         child: Column(
           children: messageList.map((e) => Text(e)).toList(),
           crossAxisAlignment: CrossAxisAlignment.start,
-          ),
+        ),
       ));
 }
